@@ -1,0 +1,109 @@
+<!-- <div class="page">
+
+  <h2>Charging Stations</h2>
+
+  <div *ngIf="loading" class="info">
+    Loading stations...
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div class="station-list" *ngIf="!loading && stations.length">
+
+    <div class="station-card" *ngFor="let station of stations">
+
+      <div class="header">
+        <h3>{{ station.name }}</h3>
+        <span
+          class="status"
+          [class.available]="station.isAvailable"
+          [class.unavailable]="!station.isAvailable">
+          {{ station.isAvailable ? 'Available' : 'Unavailable' }}
+        </span>
+      </div>
+
+      <p class="address">{{ station.address }}</p>
+
+      <div class="meta">
+        <span> {{ station.type | titlecase }}</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div *ngIf="!loading && !stations.length" class="info">
+    No charging stations found
+  </div>
+
+</div> -->
+
+
+
+
+<div class="page">
+
+  <h2>Charging Stations</h2>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="info">
+    Loading stations...
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper" *ngIf="!loading && stations.length">
+
+    <table class="station-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Station Name</th>
+          <th>Address</th>
+          <th>Type</th>
+          <th>Status</th>
+        <th>Navigate</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let station of stations; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ station.name }}</td>
+          <td>{{ station.address }}</td>
+          <td>{{ station.type | titlecase }}</td>
+
+          <td>
+            <span
+              class="status-badge"
+              [class.available]="station.isAvailable"
+              [class.unavailable]="!station.isAvailable">
+              {{ station.isAvailable ? 'Available' : 'Unavailable' }}
+            </span>
+          </td>
+
+          <td>  <a
+            class="navigate-btn"
+            [href]="getGoogleMapsUrl(station.latitude, station.longitude)"
+            target="_blank"
+            rel="noopener noreferrer">
+            Navigate
+          </a></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <!-- Empty -->
+  <div *ngIf="!loading && !stations.length" class="info">
+    No charging stations found
+  </div>
+
+</div>

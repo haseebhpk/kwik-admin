@@ -1,0 +1,232 @@
+<!-- <div class="page">
+
+  <form [formGroup]="energyForm" class="filter-card">
+    <h3>Energy Report Filter</h3>
+
+    <div class="filter-row">
+      <select formControlName="filterType">
+        <option value="thisMonth">This Month</option>
+        <option value="lastMonth">Last Month</option>
+        <option value="custom">Custom</option>
+      </select>
+
+      <input
+        *ngIf="energyForm.value.filterType === 'custom'"
+        type="date"
+        formControlName="fromDate">
+
+      <input
+        *ngIf="energyForm.value.filterType === 'custom'"
+        type="date"
+        formControlName="toDate">
+    </div>
+
+    <div class="actions">
+    
+
+<button
+  type="button"
+  [disabled]="!canSubmit"
+  (click)="loadEnergySummary()">
+  Load Summary
+</button>
+
+<button
+  type="button"
+  [disabled]="!canSubmit"
+  (click)="loadUsersEnergy()">
+  Load Users
+</button>
+
+
+
+    </div>
+  </form>
+
+  ENERGY SUMMARY CARD
+  <div class="card" *ngIf="energySummary">
+    <h3>Energy Summary</h3>
+
+    <div class="summary-grid">
+      <div><span>Total KWh</span><strong>{{ energySummary.totalKWhUsed }}</strong></div>
+      <div><span>Total Amount</span><strong>₹ {{ energySummary.totalConsumedAmount }}</strong></div>
+      <div><span>Total Sessions</span><strong>{{ energySummary.totalSessions }}</strong></div>
+      <div><span>Unique Drivers</span><strong>{{ energySummary.totalUniqueDrivers }}</strong></div>
+      <div><span>Repeated Users</span><strong>{{ energySummary.totalRepeatedUsers }}</strong></div>
+    </div>
+  </div>
+
+  USERS ENERGY TABLE
+  <div class="card" *ngIf="userEnergy.length">
+    <h3>Users Energy Report</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>User Name</th>
+          <th>Phone</th>
+          <th>Total KWh</th>
+          <th>Total Amount</th>
+          <th>Last Charged</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let u of userEnergy">
+          <td>{{ u.userName }}</td>
+          <td>{{ u.phoneNumber }}</td>
+          <td>{{ u.totalKWhUsed }}</td>
+          <td>₹ {{ u.totalConsumedAmount }}</td>
+          <td>{{ u.lastChargedTime | date:'medium' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div> -->
+
+
+<div class="page">
+
+  <!-- ================= FILTER ================= -->
+  <form [formGroup]="energyForm" class="filter-card">
+    <h3>Energy Report Filter</h3>
+
+    <div class="filter-row">
+      <select formControlName="filterType">
+        <option value="thisMonth">This Month</option>
+        <option value="lastMonth">Last Month</option>
+        <option value="custom">Custom</option>
+      </select>
+
+      <input
+        *ngIf="energyForm.value.filterType === 'custom'"
+        type="date"
+        formControlName="fromDate"
+        placeholder="From Date">
+
+      <input
+        *ngIf="energyForm.value.filterType === 'custom'"
+        type="date"
+        formControlName="toDate"
+        placeholder="To Date">
+    </div>
+
+    <div class="actions">
+      <button
+        type="button"
+        [disabled]="!canSubmit"
+        (click)="loadEnergySummary()">
+        <span *ngIf="!loadingSummary">📊 Load Summary</span>
+        <span *ngIf="loadingSummary">⏳ Loading...</span>
+      </button>
+
+      <button
+        type="button"
+        [disabled]="!canSubmit"
+        (click)="loadUsersEnergy()">
+        <span *ngIf="!loadingUsers">👥 Load Users</span>
+        <span *ngIf="loadingUsers">⏳ Loading...</span>
+      </button>
+    </div>
+  </form>
+
+  <!-- ================= ERROR ================= -->
+  <div class="error" *ngIf="errorMessage">
+    ⚠️ {{ errorMessage }}
+  </div>
+
+  <!-- ================= NO SUMMARY DATA ================= -->
+  <div class="no-data"
+       *ngIf="noSummaryData && !loadingSummary">
+     No energy summary data found for selected filter.
+  </div>
+
+  <!-- ================= ENERGY SUMMARY ================= -->
+  <div class="card summary-card"
+       *ngIf="energySummary && !loadingSummary">
+    <div class="card-header">
+      <h3>⚡ Energy Summary</h3>
+      <button 
+        class="download-btn"
+        (click)="downloadSummaryPDF()"
+        title="Download Summary PDF">
+        📥 Export PDF
+      </button>
+    </div>
+
+    <div class="summary-grid">
+      <div class="summary-item">
+        <span class="label">Total Energy</span>
+        <strong class="value">{{ energySummary.totalKWhUsed.toFixed(2) }} KWh</strong>
+      </div>
+
+      <div class="summary-item">
+        <span class="label">Total Amount</span>
+        <strong class="value amount">₹ {{ energySummary.totalConsumedAmount.toFixed(2) }}</strong>
+      </div>
+
+      <div class="summary-item">
+        <span class="label">Total Sessions</span>
+        <strong class="value">{{ energySummary.totalSessions }}</strong>
+      </div>
+
+      <div class="summary-item">
+        <span class="label">Unique Drivers</span>
+        <strong class="value">{{ energySummary.totalUniqueDrivers }}</strong>
+      </div>
+
+      <div class="summary-item">
+        <span class="label">Repeated Users</span>
+        <strong class="value">{{ energySummary.totalRepeatedUsers }}</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= NO USERS DATA ================= -->
+  <div class="no-data"
+       *ngIf="noUserData && !loadingUsers">
+     No users energy data found for selected filter.
+  </div>
+
+  <!-- ================= USERS TABLE ================= -->
+  <div class="card users-card"
+       *ngIf="userEnergy.length && !loadingUsers">
+    <div class="card-header">
+      <h3>👥 Users Energy Report ({{ userEnergy.length }} users)</h3>
+      <button 
+        class="download-btn"
+        (click)="downloadUsersPDF()"
+        title="Download Users Report PDF">
+        📥 Export PDF
+      </button>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="energy-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>User Name</th>
+            <th>Phone Number</th>
+            <th>Energy (KWh)</th>
+            <th>Amount</th>
+            <th>Last Charged</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let u of userEnergy; let i = index">
+            <td class="index">{{ i + 1 }}</td>
+            <td class="user-name">{{ u.userName }}</td>
+            <td class="phone">{{ u.phoneNumber }}</td>
+            <td class="energy">{{ u.totalKWhUsed.toFixed(2) }} KWh</td>
+            <td class="amount">₹ {{ u.totalConsumedAmount.toFixed(2) }}</td>
+            <td class="date">{{ u.lastChargedTime | date:'medium' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

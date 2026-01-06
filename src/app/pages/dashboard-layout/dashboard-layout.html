@@ -1,0 +1,29 @@
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h3>Admin</h3>
+
+    <a routerLink="charging-station" routerLinkActive="active">
+      Charging Stations
+    </a>
+
+    <a routerLink="gst" routerLinkActive="active">
+      GST
+    </a>
+
+  <a routerLink="admin-summary" routerLinkActive="active">
+      Charging sessions
+    </a>
+
+ <a routerLink="reports/energy" routerLinkActive="active">
+      Quick report
+    </a>
+
+
+   </aside>
+
+  <!-- Page Content -->
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

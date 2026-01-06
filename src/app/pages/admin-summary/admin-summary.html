@@ -1,0 +1,81 @@
+
+
+<div class="admin-container">
+  <div class="header-section">
+    <div class="title-group">
+      <h2>Charging Summary</h2>
+      <!-- <p class="subtitle">Monitor and export charging session data</p> -->
+    </div>
+    <div class="actions">
+      <button class="btn btn-outline" (click)="downloadExcel()">
+        <span class="icon">📊</span> Export Excel
+      </button>
+      <button class="btn btn-primary" (click)="downloadPdf()">
+        <span class="icon">📄</span> Export PDF
+      </button>
+    </div>
+  </div>
+
+  <div class="filter-card">
+    <div class="filter-grid">
+      <div class="filter-group">
+        <label>Start Date</label>
+        <input type="date" [(ngModel)]="startDate" (change)="applyFilters()" />
+      </div>
+      <div class="filter-group">
+        <label>End Date</label>
+        <input type="date" [(ngModel)]="endDate" (change)="applyFilters()" />
+      </div>
+      <div class="filter-group">
+        <label>Search Name</label>
+        <input type="text" placeholder="e.g. John Doe" [(ngModel)]="searchName" (input)="applyFilters()" />
+      </div>
+      <div class="filter-group">
+        <label>Search Mobile</label>
+        <input type="text" placeholder="e.g. +910123456789" [(ngModel)]="searchPhone" (input)="applyFilters()" />
+      </div>
+    </div>
+  </div>
+
+  <div class="table-card">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Session ID</th>
+            <th>User Name</th>
+            <th>Phone</th>
+            <th>Energy (kWh)</th>
+            <th>Amount</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="adminSummary.length > 0; else noData">
+          <tr *ngFor="let item of adminSummary">
+            <td><span class="badge-id">#{{ item.chargingSessionId }}</span></td>
+            <td><strong>{{ item.userName }}</strong></td>
+            <td>{{ item.phoneNumber }}</td>
+            <td><span class="energy-label">{{ item.energyUsedKWh }} kWh</span></td>
+            <td><span class="amount-tag">{{ item.consumedAmount }}</span></td>
+            <td class="timestamp">{{ item.startTime | date:'short' }}</td>
+            <td class="timestamp">{{ item.endTime | date:'short' }}</td>
+            <td class="text-center">
+              <button class="btn-invoice" (click)="downloadInvoice(item.chargingSessionId)">
+                Invoice
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #noData>
+      <div class="no-data-state">
+        <div class="no-data-icon">🔍</div>
+        <p>No records found matching your filters</p>
+      </div>
+    </ng-template>
+  </div>
+</div>
