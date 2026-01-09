@@ -1,0 +1,343 @@
+<!-- <div class="page">
+
+  <h2 *ngIf="station">
+    {{ station.name }} – Connectors
+  </h2>
+
+  <p *ngIf="station">
+    📍 {{ station.address }}
+  </p>
+
+  <div *ngIf="loading">
+    Loading connectors...
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && connectors.length === 0">
+    No connectors found
+  </div>
+
+  <div class="connector-list" *ngIf="connectors.length > 0">
+    <div class="connector-card" *ngFor="let c of connectors">
+      <h4>Connector {{ c.connectorId }}</h4>
+
+      <p><b>Charge Point:</b> {{ c.chargePointId }}</p>
+      <p><b>Type:</b> {{ c.type }}</p>
+      <p><b>Status:</b> {{ c.status }}</p>
+      <p><b>Power:</b> {{ c.powerRating }} kW</p>
+    </div>
+  </div>
+
+</div> -->
+
+
+
+
+<!-- viee conector tgl -->
+<!-- 
+<div class="page">
+
+  <h2 *ngIf="station">
+    {{ station.name }} 
+  </h2>
+
+  <h3 *ngIf="station">
+     {{ station.address }}
+  </h3>
+
+  <div *ngIf="loading" class="loading">
+    Loading charging points...
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && chargePoints.length === 0">
+    No charging points found
+  </div>
+
+  <div class="cp-list">
+    <div class="cp-card" *ngFor="let cp of chargePoints">
+
+    <div class="cp-header" (click)="toggleConnectors(cp)">
+  <div class="cp-info">
+    <h4>{{ cp.id }}</h4>
+
+    <p><b>Vendor:</b> {{ cp.vendor }}</p>
+    <p><b>Model:</b> {{ cp.model }}</p>
+    <p><b>Serial No:</b> {{ cp.serialNumber }}</p>
+
+    <p>
+      <b>Status:</b>
+      <span [ngClass]="'status-' + (cp.isOnline ? 'Available' : 'Unavailable')">
+        {{ cp.isOnline ? 'Online' : 'Offline' }}
+      </span>
+    </p>
+
+    <p class="last-seen">
+      <b>Last Seen:</b>
+      {{ cp.lastSeen | date:'medium' }}
+    </p>
+  </div>
+
+  <button class="toggle-btn">
+    {{ cp.expanded ? 'Hide Connectors' : 'Show Connectors' }}
+  </button>
+</div>
+
+
+      <div class="connectors" *ngIf="cp.expanded">
+        <div class="connector" *ngFor="let c of cp.connectors">
+          <p><b>Connector:</b> {{ c.connectorId }}</p>
+          <p><b>Type:</b> {{ c.type }}</p>
+          <p>
+            <b>Status:</b>
+            <span [ngClass]="'status-' + c.status">
+              {{ c.status }}
+            </span>
+          </p>
+          <p><b>Power:</b> {{ c.powerRating }} kW</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div> -->
+
+
+
+
+<!-- 
+<div class="page">
+
+  <h2 *ngIf="station">{{ station.name }}</h2>
+  <h3 *ngIf="station">{{ station.address }}</h3>
+
+  Add Charge Point Button
+  <button class="add-btn" (click)="openAddModal()">
+    + Add Charge Point
+  </button>
+
+  <div *ngIf="loading" class="loading">
+    Loading charging points...
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && chargePoints.length === 0">
+    No charging points found
+  </div>
+
+  Charge Points List
+  <div class="cp-list">
+    <div class="cp-card" *ngFor="let cp of chargePoints">
+
+      <div class="cp-header" (click)="toggleConnectors(cp)">
+        <div class="cp-info">
+          <h4>{{ cp.id }}</h4>
+
+          <p><b>Vendor:</b> {{ cp.vendor }}</p>
+          <p><b>Model:</b> {{ cp.model }}</p>
+          <p><b>Serial No:</b> {{ cp.serialNumber }}</p>
+
+          <p>
+            <b>Status:</b>
+            <span [ngClass]="'status-' + (cp.isOnline ? 'Available' : 'Unavailable')">
+              {{ cp.isOnline ? 'Online' : 'Offline' }}
+            </span>
+          </p>
+
+          <p class="last-seen">
+            <b>Last Seen:</b>
+            {{ cp.lastSeen | date:'medium' }}
+          </p>
+        </div>
+
+        <button class="toggle-btn">
+          {{ cp.expanded ? 'Hide Connectors' : 'Show Connectors' }}
+        </button>
+      </div>
+
+      <div class="connectors" *ngIf="cp.expanded">
+        <div class="connector" *ngFor="let c of cp.connectors">
+          <p><b>Connector:</b> {{ c.connectorId }}</p>
+          <p><b>Type:</b> {{ c.type }}</p>
+          <p><b>Status:</b> {{ c.status }}</p>
+          <p><b>Power:</b> {{ c.powerRating }} kW</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+================= MODAL =================
+
+POPUP MODAL
+<div class="modal-overlay" *ngIf="showAddModal">
+  <div class="modal-popup">
+
+    <h3>Add Charge Point</h3>
+
+    <label>
+      Charge Point ID
+      <input type="text" [(ngModel)]="newChargePoint.id" />
+    </label>
+
+    <label>
+      Vendor
+      <input type="text" [(ngModel)]="newChargePoint.vendor" />
+    </label>
+
+    <label>
+      Model
+      <input type="text" [(ngModel)]="newChargePoint.model" />
+    </label>
+
+    <label>
+      Serial Number
+      <input type="text" [(ngModel)]="newChargePoint.serialNumber" />
+    </label>
+
+    <div class="modal-actions">
+      <button (click)="addChargePoint()">Save</button>
+      <button class="cancel" (click)="closeAddModal()">Cancel</button>
+    </div>
+
+  </div>
+</div> -->
+
+
+
+
+<!-- add connector  -->
+ <div class="page">
+
+  <h2 *ngIf="station">{{ station.name }}</h2>
+  <h3 *ngIf="station">{{ station.address }}</h3>
+
+  <!-- ADD CHARGE POINT -->
+  <button class="add-btn" (click)="openAddChargePointModal()">
+     Add Charge Point
+  </button>
+
+  <div *ngIf="loading" class="loading">Loading charging points...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div *ngIf="!loading && chargePoints.length === 0">
+    No charging points found
+  </div>
+
+  <div class="cp-list">
+    <div class="cp-card" *ngFor="let cp of chargePoints">
+
+      <!-- CHARGE POINT HEADER -->
+      <div class="cp-header" (click)="toggleConnectors(cp)">
+        <div class="cp-info">
+          <h4>{{ cp.id }}</h4>
+          <p><b>Vendor:</b> {{ cp.vendor }}</p>
+          <p><b>Model:</b> {{ cp.model }}</p>
+          <p><b>Serial:</b> {{ cp.serialNumber }}</p>
+        </div>
+
+        <button class="toggle-btn">
+          {{ cp.expanded ? 'Hide Connectors' : 'Show Connectors' }}
+        </button>
+      </div>
+
+      <!-- CONNECTORS -->
+      <div class="connectors" *ngIf="cp.expanded">
+
+        <!-- ADD CONNECTOR -->
+        <button class="add-connector-btn"
+                (click)="openAddConnectorModal(cp.id)">
+           Add Connector
+        </button>
+
+        <div *ngIf="cp.connectors.length === 0">
+          No connectors found
+        </div>
+
+        <div class="connector" *ngFor="let c of cp.connectors">
+          <p><b>Connector ID:</b> {{ c.connectorId }}</p>
+          <p><b>Type:</b> {{ c.type }}</p>
+          <p><b>Power:</b> {{ c.powerRating }} kW</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= ADD CHARGE POINT MODAL ================= -->
+
+<div class="modal-overlay" *ngIf="showAddChargePointModal">
+  <div class="modal-popup">
+
+    <h3>Add Charge Point</h3>
+
+    <label>
+      Charge Point ID
+      <input type="text" [(ngModel)]="newChargePoint.id" />
+    </label>
+
+    <label>
+      Vendor
+      <input type="text" [(ngModel)]="newChargePoint.vendor" />
+    </label>
+
+    <label>
+      Model
+      <input type="text" [(ngModel)]="newChargePoint.model" />
+    </label>
+
+    <label>
+      Serial Number
+      <input type="text" [(ngModel)]="newChargePoint.serialNumber" />
+    </label>
+
+    <div class="modal-actions">
+      <button (click)="addChargePoint()">Add</button>
+      <button class="cancel" (click)="closeAddChargePointModal()">Cancel</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================= ADD CONNECTOR MODAL ================= -->
+
+<div class="modal-overlay" *ngIf="showAddConnectorModal">
+  <div class="modal-popup">
+
+    <h3>Add Connector</h3>
+
+    <label>
+      Connector ID
+      <input type="number" [(ngModel)]="newConnector.connectorId" />
+    </label>
+
+    <label>
+      Type
+      <input type="text" [(ngModel)]="newConnector.type" />
+    </label>
+
+    <label>
+      Power Rating (kW)
+      <input type="number" [(ngModel)]="newConnector.powerRating" />
+    </label>
+
+    <div class="modal-actions">
+      <button (click)="addConnector()">Add</button>
+      <button class="cancel" (click)="closeAddConnectorModal()">Cancel</button>
+    </div>
+
+  </div>
+</div>

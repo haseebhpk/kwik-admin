@@ -1,75 +1,7 @@
-// import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { HttpClient, HttpClientModule } from '@angular/common/http';
-// import { finalize } from 'rxjs/operators';
-
-// interface ChargingStation {
-//   id: number;
-//   name: string;
-//   latitude: number;
-//   longitude: number;
-//   address: string;
-//   type: string;
-//   isAvailable: boolean;
-//   distance: number;
-// }
-
-// @Component({
-//   selector: 'app-charging-station',
-//   standalone: true,
-//   imports: [CommonModule, HttpClientModule],
-//   templateUrl: './charging-station.html',
-//   styleUrl: './charging-station.scss',
-// })
-// export class ChargingStationComponent implements OnInit {
-
-//   stations: ChargingStation[] = [];
-//   loading = false;
-//   error = '';
-
-//   private apiUrl = 'https://localhost:7227/api/ChargingStation';
-
-//   constructor(
-//     private http: HttpClient,
-//     private cdr: ChangeDetectorRef // ✅ IMPORTANT
-//   ) {}
-
-//   ngOnInit(): void {
-//     console.log('Component initialized');
-//     this.fetchStations();
-//   }
-
-//   fetchStations() {
-//     this.loading = true;
-//     console.log('Loading started:', this.loading);
-
-//     this.http.get<ChargingStation[]>(this.apiUrl)
-//       .pipe(
-//         finalize(() => {
-//           this.loading = false;
-//           console.log('Loading finished:', this.loading);
-//           this.cdr.detectChanges(); // ✅ FORCE UI UPDATE
-//         })
-//       )
-//       .subscribe({
-//         next: (res) => {
-//           console.log('API Response:', res);
-//           this.stations = res;
-//         },
-//         error: (err) => {
-//           console.error('API Error:', err);
-//           this.error = 'Failed to load charging stations';
-//         }
-//       });
-//   }
-// }
-
-
-
-
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 
 interface ChargingStation {
@@ -81,6 +13,7 @@ interface ChargingStation {
   type: string;
   isAvailable: boolean;
   distance: number;
+  chargePoints: any[];
 }
 
 @Component({
@@ -93,14 +26,15 @@ interface ChargingStation {
 export class ChargingStationComponent implements OnInit {
 
   stations: ChargingStation[] = [];
-  loading: boolean = false;
-  error: string = '';
+  loading = false;
+  error = '';
 
   private apiUrl = 'https://localhost:7227/api/ChargingStation';
 
-  constructor(private http: HttpClient,
-        private cdr: ChangeDetectorRef   // ✅ IMPORTANT
-
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private cdr: ChangeDetectorRef   // ✅ injected
   ) {}
 
   ngOnInit(): void {
@@ -110,31 +44,43 @@ export class ChargingStationComponent implements OnInit {
   fetchStations(): void {
     this.loading = true;
     this.error = '';
+    this.cdr.detectChanges(); // ✅ update UI immediately
 
     this.http.get<ChargingStation[]>(this.apiUrl)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-       this.cdr.detectChanges();   // ✅ FORCE UI UPDATE
-
-        })
-      )
+      .pipe(finalize(() => {
+        this.loading = false;
+        this.cdr.detectChanges(); // ✅ reflect loading=false
+      }))
       .subscribe({
-        next: (response) => {
-
-          this.stations = response || [];
-            console.log('After assign:', this.stations);
-
+        next: (res) => {
+          this.stations = res || [];
+          this.cdr.detectChanges(); // ✅ update list
         },
-        error: (err) => {
-          console.error('API Error:', err);
+        error: () => {
           this.error = 'Failed to load charging stations';
+          this.cdr.detectChanges(); // ✅ show error
         }
       });
   }
 
-  getGoogleMapsUrl(lat: number, lng: number): string {
-  return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+  addStation(): void {
+    this.router.navigate(['/dashboard/add-station']);
+  }
+
+  // viewStation(stationId: number): void {
+  //   this.router.navigate(['/stations','connectors', stationId ]);
+  // }
+  viewStation(stationId: number): void {
+  this.router.navigate([
+    '/dashboard/charging-station/connectors',
+    stationId
+  ]);
 }
 
+
+  getGoogleMapsUrl(lat: number, lng: number): string {
+    return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+  }
 }
+
+

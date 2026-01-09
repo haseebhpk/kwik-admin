@@ -105,13 +105,13 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   //   return next(req);
   // }
 // 🔹 Skip auth endpoints (login + refresh)
-if (
-  req.url.includes('/api/admin/auth/login') ||
-  req.url.includes('/api/admin/auth/refresh')
-) {
-  console.log('[Interceptor] Skipping auth endpoint');
-  return next(req);
-}
+// if (
+//   req.url.includes('/api/admin/auth/login') ||
+//   req.url.includes('/api/admin/auth/refresh')
+// ) {
+//   console.log('[Interceptor] Skipping auth endpoint');
+//   return next(req);
+// }
 
   const token = authService.getToken();
   console.log(

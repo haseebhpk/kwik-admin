@@ -1,0 +1,122 @@
+<!-- <div class="page">
+
+  <h2>Add Charging Station</h2>
+
+  <form (ngSubmit)="submit()" class="form">
+    <input placeholder="Station Name" [(ngModel)]="station.name" name="name" required />
+    <input placeholder="Latitude" type="number" [(ngModel)]="station.latitude" name="lat" required />
+    <input placeholder="Longitude" type="number" [(ngModel)]="station.longitude" name="lng" required />
+    <input placeholder="Address" [(ngModel)]="station.address" name="address" required />
+    <input placeholder="Type (fast/slow)" [(ngModel)]="station.type" name="type" required />
+
+    <div class="actions">
+      <button type="submit">Add</button>
+      <button type="button" class="cancel" (click)="cancel()">Cancel</button>
+    </div>
+  </form>
+
+</div> -->
+
+
+
+
+<div class="page">
+
+  <h2>Add Charging Station</h2>
+
+  <form #stationForm="ngForm"
+        (ngSubmit)="submit(stationForm)"
+        class="form">
+
+    <!-- Station Name -->
+    <label>Station Name</label>
+    <input
+      name="name"
+      [(ngModel)]="station.name"
+      #name="ngModel"
+      required
+      placeholder="Station name" />
+
+    <small class="error" *ngIf="name.invalid && name.touched">
+      Station name is required
+    </small>
+
+    <!-- Latitude -->
+    <label>Latitude</label>
+    <input
+      type="number"
+      step="any"
+      name="latitude"
+      [(ngModel)]="station.latitude"
+      #latitude="ngModel"
+      required
+      min="-90"
+      max="90"
+      placeholder="Eg: 11.8745" />
+
+    <small class="error" *ngIf="latitude.touched && latitude.errors?.['required']">
+      Latitude is required
+    </small>
+    <small class="error" *ngIf="latitude.touched && (latitude.errors?.['min'] || latitude.errors?.['max'])">
+      Latitude must be between -90 and 90
+    </small>
+
+    <!-- Longitude -->
+    <label>Longitude</label>
+    <input
+      type="number"
+      step="any"
+      name="longitude"
+      [(ngModel)]="station.longitude"
+      #longitude="ngModel"
+      required
+      min="-180"
+      max="180"
+      placeholder="Eg: 75.3704" />
+
+    <small class="error" *ngIf="longitude.touched && longitude.errors?.['required']">
+      Longitude is required
+    </small>
+    <small class="error" *ngIf="longitude.touched && (longitude.errors?.['min'] || longitude.errors?.['max'])">
+      Longitude must be between -180 and 180
+    </small>
+
+    <!-- Address -->
+    <label>Address</label>
+    <input
+      name="address"
+      [(ngModel)]="station.address"
+      #address="ngModel"
+      required
+      placeholder="Station adress" />
+
+    <small class="error" *ngIf="address.invalid && address.touched">
+      Address is required
+    </small>
+
+    <!-- Type -->
+    <label>Charger Type</label>
+    <select
+      name="type"
+      [(ngModel)]="station.type"
+      #type="ngModel"
+      required>
+      <option value="" disabled>Select type</option>
+      <option value="fast">Fast</option>
+      <option value="slow">Slow</option>
+    </select>
+
+    <small class="error" *ngIf="type.invalid && type.touched">
+      Charger type is required
+    </small>
+
+    <div class="actions">
+      <button type="submit" [disabled]="stationForm.invalid">
+        Add Station
+      </button>
+      <button type="button" class="cancel" (click)="cancel()">Cancel</button>
+    </div>
+
+  </form>
+
+</div>
