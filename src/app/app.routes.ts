@@ -64,6 +64,8 @@ import { EnergyComponent } from './pages/energy/energy';
 import { EditStation } from './pages/edit-station/edit-station';
 import { AddStationComponent } from './pages/add-station/add-station';
 import { ConnectorsComponent } from './pages/connectors/connectors';
+import { PendingInvoicesComponent } from './pages/pending-invoices/pending-invoices';
+import { PendingPaymentsComponent } from './pages/pending-payments/pending-payments';
 
 export const routes: Routes = [
   { path: 'login', component: AdminLoginComponent },
@@ -86,7 +88,9 @@ export const routes: Routes = [
       { path: 'gst', component: Gst },
       { path: 'admin-summary', component: AdminSummaryComponent },
       { path: 'reports/energy', component: EnergyComponent },
-      { path: 'add-station', component: AddStationComponent }
+      { path: 'add-station', component: AddStationComponent },
+      { path: 'pending-invoices', component: PendingInvoicesComponent },
+      { path: 'pending-payments', component: PendingPaymentsComponent }
     ]
   },
 

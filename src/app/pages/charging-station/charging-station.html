@@ -1,72 +1,3 @@
- <!-- <div class="page">
-
-  <div class="header">
-    <h2>Charging Stations</h2>
-    <button class="add-btn" (click)="addStation()">➕ Add Station</button>
-  </div>
-
-  <div *ngIf="loading" class="info">Loading stations...</div>
-  <div *ngIf="error" class="error">{{ error }}</div>
-
-  <div class="table-wrapper" *ngIf="!loading && stations.length">
-    <table class="station-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Address</th>
-          <th>Status</th>
-          <th>Navigate</th>
-          <th>View</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr *ngFor="let station of stations; let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>{{ station.name }}</td>
-          <td>{{ station.address }}</td>
-
-          <td>
-            <span
-              class="status-badge"
-              [class.available]="station.isAvailable"
-              [class.unavailable]="!station.isAvailable">
-              {{ station.isAvailable ? 'Available' : 'Unavailable' }}
-            </span>
-          </td>
-
-          <td>
-            <a
-              class="navigate-btn"
-              [href]="getGoogleMapsUrl(station.latitude, station.longitude)"
-              target="_blank">
-              Navigate
-            </a>
-          </td>
-
-          <td>
-            <button class="view-btn" (click)="viewStation(station.id)">
-              View Station
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div *ngIf="!loading && !stations.length" class="info">
-    No charging stations found
-  </div>
-
-</div> -->
-
-
-
-
-
-
-
 <div class="page">
 
   <div class="header">
@@ -97,19 +28,14 @@
           <td>{{ station.address }}</td>
 
           <td>
-            <span
-              class="status-badge"
-              [class.available]="station.isAvailable"
+            <span class="status-badge" [class.available]="station.isAvailable"
               [class.unavailable]="!station.isAvailable">
               {{ station.isAvailable ? 'Available' : 'Unavailable' }}
             </span>
           </td>
 
           <td class="center">
-            <a
-              class="navigate-btn"
-              [href]="getGoogleMapsUrl(station.latitude, station.longitude)"
-              target="_blank">
+            <a class="navigate-btn" [href]="getGoogleMapsUrl(station.latitude, station.longitude)" target="_blank">
               Navigate
             </a>
           </td>

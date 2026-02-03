@@ -1,79 +1,3 @@
-// import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { HttpClient, HttpClientModule } from '@angular/common/http';
-// import { ActivatedRoute } from '@angular/router';
-
-// @Component({
-//   selector: 'app-connectors',
-//   standalone: true,
-//   imports: [CommonModule, HttpClientModule],
-//   templateUrl: './connectors.html',
-//   styleUrl: './connectors.scss'
-// })
-// export class ConnectorsComponent implements OnInit {
-
-//   stationId!: number;
-//   loading = false;
-//   error = '';
-
-//   station: any = null;
-//   connectors: any[] = [];
-
-//   private apiUrl = 'https://localhost:7227/api/ChargingStation';
-
-//   constructor(
-//     private route: ActivatedRoute,
-//     private http: HttpClient,
-//     private cdr: ChangeDetectorRef   // ✅ added
-//   ) {}
-
-//   ngOnInit(): void {
-//     this.stationId = Number(this.route.snapshot.paramMap.get('stationId'));
-//     this.fetchStationDetails();
-//   }
-
-//   fetchStationDetails(): void {
-//     this.loading = true;
-//     this.error = '';
-//     this.cdr.detectChanges(); // ✅ reflect loading immediately
-
-//     this.http.get<any>(`${this.apiUrl}/${this.stationId}`)
-//       .subscribe({
-//         next: (res) => {
-//           this.station = res;
-
-//           // flatten all connectors from charge points
-//           this.connectors = res.chargePoints.flatMap(
-//             (cp: any) => cp.connectors.map((c: any) => ({
-//               ...c,
-//               chargePointId: cp.id
-//             }))
-//           );
-
-//           this.loading = false;
-//           this.cdr.detectChanges(); // ✅ update UI after data load
-//         },
-//         error: () => {
-//           this.error = 'Failed to load connectors';
-//           this.loading = false;
-//           this.cdr.detectChanges(); // ✅ show error
-//         }
-//       });
-//   }
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
 //add connector   
 // import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 // import { CommonModule } from '@angular/common';
@@ -277,7 +201,9 @@ export class ConnectorsComponent implements OnInit {
     id: '',
     vendor: '',
     model: '',
-    serialNumber: ''
+    serialNumber: '',
+    maxPowerKw: 0,
+    voltage: 0
   };
 
   /* ===== ADD CONNECTOR ===== */
@@ -297,7 +223,7 @@ export class ConnectorsComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.stationId = Number(this.route.snapshot.paramMap.get('stationId'));
@@ -308,12 +234,12 @@ export class ConnectorsComponent implements OnInit {
       const modal = params['modal'];
       const id = params['id'];
 
-      if(modal === 'chargePoint') {
+      if (modal === 'chargePoint') {
         this.openAddChargePointModal(false); // don't push new URL
-      } 
-      else if(modal === 'connector' && id) {
+      }
+      else if (modal === 'connector' && id) {
         this.openAddConnectorModal(id, false);
-      } 
+      }
       else {
         this.closeAddChargePointModal(false);
         this.closeAddConnectorModal(false);
@@ -353,7 +279,7 @@ export class ConnectorsComponent implements OnInit {
   openAddChargePointModal(pushUrl = true): void {
     this.showAddChargePointModal = true;
     this.cdr.detectChanges();
-    if(pushUrl) {
+    if (pushUrl) {
       this.router.navigate([], { queryParams: { modal: 'chargePoint' } });
     }
   }
@@ -362,7 +288,7 @@ export class ConnectorsComponent implements OnInit {
     this.showAddChargePointModal = false;
     this.resetChargePointForm();
     this.cdr.detectChanges();
-    if(pushUrl) {
+    if (pushUrl) {
       this.router.navigate([], { queryParams: {} });
     }
   }
@@ -372,7 +298,9 @@ export class ConnectorsComponent implements OnInit {
       id: '',
       vendor: '',
       model: '',
-      serialNumber: ''
+      serialNumber: '',
+      maxPowerKw: 0,
+      voltage: 0
     };
   }
 
@@ -400,7 +328,7 @@ export class ConnectorsComponent implements OnInit {
     this.selectedChargePointId = chargePointId;
     this.showAddConnectorModal = true;
     this.cdr.detectChanges();
-    if(pushUrl) {
+    if (pushUrl) {
       this.router.navigate([], { queryParams: { modal: 'connector', id: chargePointId } });
     }
   }
@@ -409,7 +337,7 @@ export class ConnectorsComponent implements OnInit {
     this.showAddConnectorModal = false;
     this.resetConnectorForm();
     this.cdr.detectChanges();
-    if(pushUrl) {
+    if (pushUrl) {
       this.router.navigate([], { queryParams: {} });
     }
   }

@@ -259,38 +259,38 @@
 //     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape for more columns
 //     const pageWidth = doc.internal.pageSize.getWidth();
 //     const pageHeight = doc.internal.pageSize.getHeight();
-    
+
 //     // Calculate summary statistics
 //     const stats = this.calculateStatistics();
 
 //     // ========== COVER PAGE ==========
 //     this.addCoverPage(doc, stats, pageWidth, pageHeight);
-    
+
 //     // ========== DATA PAGES ==========
 //     doc.addPage();
 
 //     // Add header and footer function
 //     const addHeaderFooter = (data: any) => {
 //       const pageNumber = (doc as any).internal.getNumberOfPages();
-      
+
 //       // Header
 //       doc.setFillColor(41, 128, 185);
 //       doc.rect(0, 0, pageWidth, 25, 'F');
-      
+
 //       doc.setTextColor(255, 255, 255);
 //       doc.setFontSize(16);
 //       doc.setFont('helvetica', 'bold');
 //       doc.text('Charging Sessions Report', 14, 12);
-      
+
 //       doc.setFontSize(9);
 //       doc.setFont('helvetica', 'normal');
 //       doc.text(`Generated: ${new Date().toLocaleString()}`, 14, 19);
 //       doc.text(`Total Records: ${this.filteredData.length}`, pageWidth - 14, 19, { align: 'right' });
-      
+
 //       // Footer
 //       doc.setFillColor(52, 73, 94);
 //       doc.rect(0, pageHeight - 15, pageWidth, 15, 'F');
-      
+
 //       doc.setTextColor(255, 255, 255);
 //       doc.setFontSize(8);
 //       doc.text(`Page ${data.pageNumber || pageNumber}`, pageWidth / 2, pageHeight - 7, { align: 'center' });
@@ -371,7 +371,7 @@
 //     // Background gradient effect
 //     doc.setFillColor(41, 128, 185);
 //     doc.rect(0, 0, pageWidth, pageHeight / 2, 'F');
-    
+
 //     doc.setFillColor(52, 152, 219);
 //     doc.rect(0, pageHeight / 2, pageWidth, pageHeight / 2, 'F');
 
@@ -380,7 +380,7 @@
 //     doc.setFontSize(32);
 //     doc.setFont('helvetica', 'bold');
 //     doc.text('CHARGING SESSIONS', pageWidth / 2, 50, { align: 'center' });
-    
+
 //     doc.setFontSize(28);
 //     doc.text('DETAILED REPORT', pageWidth / 2, 65, { align: 'center' });
 
@@ -388,11 +388,11 @@
 //     if (this.startDate || this.endDate) {
 //       doc.setFillColor(255, 255, 255);
 //       doc.roundedRect(pageWidth / 2 - 60, 80, 120, 20, 3, 3, 'F');
-      
+
 //       doc.setTextColor(41, 128, 185);
 //       doc.setFontSize(11);
 //       doc.setFont('helvetica', 'bold');
-      
+
 //       const dateRange = this.getDateRangeText();
 //       doc.text(dateRange, pageWidth / 2, 92, { align: 'center' });
 //     }
@@ -414,21 +414,21 @@
 
 //     cards.forEach((card, index) => {
 //       const x = startX + (index * (cardWidth + gap));
-      
+
 //       // Card background
 //       doc.setFillColor(255, 255, 255);
 //       doc.roundedRect(x, cardY, cardWidth, cardHeight, 3, 3, 'F');
-      
+
 //       // Colored top stripe
 //       doc.setFillColor(card.color[0], card.color[1], card.color[2]);
 //       doc.rect(x, cardY, cardWidth, 3, 'F');
-      
+
 //       // Label
 //       doc.setTextColor(100, 100, 100);
 //       doc.setFontSize(8);
 //       doc.setFont('helvetica', 'normal');
 //       doc.text(card.label, x + cardWidth / 2, cardY + 12, { align: 'center' });
-      
+
 //       // Value
 //       doc.setTextColor(50, 50, 50);
 //       doc.setFontSize(12);
@@ -448,7 +448,7 @@
 //   private addSummaryPage(doc: jsPDF, stats: any, pageWidth: number, pageHeight: number) {
 //     doc.setFillColor(41, 128, 185);
 //     doc.rect(0, 30, pageWidth, 20, 'F');
-    
+
 //     doc.setTextColor(255, 255, 255);
 //     doc.setFontSize(18);
 //     doc.setFont('helvetica', 'bold');
@@ -493,24 +493,24 @@
 
 //     // Filter information
 //     const finalY = (doc as any).lastAutoTable.finalY + 20;
-    
+
 //     doc.setFillColor(245, 247, 250);
 //     doc.roundedRect(14, finalY, pageWidth - 28, 40, 3, 3, 'F');
-    
+
 //     doc.setTextColor(52, 73, 94);
 //     doc.setFontSize(12);
 //     doc.setFont('helvetica', 'bold');
 //     doc.text('Applied Filters:', 20, finalY + 10);
-    
+
 //     doc.setFontSize(10);
 //     doc.setFont('helvetica', 'normal');
-    
+
 //     let filterText = '';
 //     if (this.startDate) filterText += `Start Date: ${new Date(this.startDate).toLocaleDateString()} | `;
 //     if (this.endDate) filterText += `End Date: ${new Date(this.endDate).toLocaleDateString()} | `;
 //     if (this.searchName) filterText += `Name Filter: "${this.searchName}" | `;
 //     if (this.searchPhone) filterText += `Phone Filter: "${this.searchPhone}" | `;
-    
+
 //     if (filterText) {
 //       filterText = filterText.slice(0, -3); // Remove last " | "
 //       doc.text(filterText, 20, finalY + 20);
@@ -528,7 +528,7 @@
 //     const totalSessions = this.filteredData.length;
 //     const totalEnergy = this.filteredData.reduce((sum, item) => sum + (item.energyUsedKWh || 0), 0);
 //     const totalRevenue = this.filteredData.reduce((sum, item) => sum + (item.consumedAmount || 0), 0);
-    
+
 //     const durations = this.filteredData.map(item => {
 //       const start = new Date(item.startTime).getTime();
 //       const end = new Date(item.endTime).getTime();
@@ -536,7 +536,7 @@
 //     }).filter(d => d > 0);
 
 //     const avgDurationMin = durations.reduce((a, b) => a + b, 0) / durations.length || 0;
-    
+
 //     return {
 //       totalSessions,
 //       totalEnergy,
@@ -590,11 +590,11 @@
 //   private generateFileName(): string {
 //     const date = new Date().toISOString().split('T')[0];
 //     let fileName = `Charging_Sessions_Report_${date}`;
-    
+
 //     if (this.startDate || this.endDate) {
 //       fileName += '_Filtered';
 //     }
-    
+
 //     return `${fileName}.pdf`;
 //   }
 
@@ -650,7 +650,7 @@ export class AdminSummaryComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   allData: any[] = [];
   filteredData: any[] = [];
@@ -664,14 +664,23 @@ export class AdminSummaryComponent implements OnInit {
   }
 
   loadData() {
+    console.log('[ADMIN-SUMMARY] 📤 Fetching charging sessions...');
     this.http.get<any[]>(this.apiUrl).subscribe({
       next: (res) => {
+        console.log('[ADMIN-SUMMARY] 📥 Response received:', res);
         this.allData = res;
+
+        // Log invoice generation status
+        const generatedCount = res.filter(item => item.isInvoiceGenerated).length;
+        const pendingCount = res.filter(item => !item.isInvoiceGenerated).length;
+        console.log('[ADMIN-SUMMARY] ✅ Invoices Generated:', generatedCount);
+        console.log('[ADMIN-SUMMARY] ⏳ Invoices Pending:', pendingCount);
+
         this.applyFilters();
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('API Error:', err);
+        console.error('[ADMIN-SUMMARY] ❌ API Error:', err);
       }
     });
   }
@@ -728,12 +737,12 @@ export class AdminSummaryComponent implements OnInit {
     // Header
     doc.setFillColor(41, 128, 185);
     doc.rect(0, 0, pageWidth, 30, 'F');
-    
+
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(18);
     doc.setFont('helvetica', 'bold');
     doc.text('Session Report', pageWidth / 2, 15, { align: 'center' });
-    
+
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
     doc.text(`Generated: ${new Date().toLocaleString()}`, pageWidth / 2, 23, { align: 'center' });
@@ -775,10 +784,13 @@ export class AdminSummaryComponent implements OnInit {
   }
 
   downloadInvoice(sessionId: number) {
+    console.log('[ADMIN-SUMMARY] 📄 Invoice download requested for session:', sessionId);
     const url = `https://localhost:7227/api/Invoice/pdf/${sessionId}`;
+    console.log('[ADMIN-SUMMARY] Download URL:', url);
 
     this.http.get(url, { responseType: 'blob' }).subscribe({
       next: (blob) => {
+        console.log('[ADMIN-SUMMARY] 📥 PDF blob received, size:', blob.size, 'bytes');
         const file = new Blob([blob], { type: 'application/pdf' });
         const fileUrl = window.URL.createObjectURL(file);
 
@@ -788,9 +800,15 @@ export class AdminSummaryComponent implements OnInit {
         a.click();
 
         window.URL.revokeObjectURL(fileUrl);
+        console.log('[ADMIN-SUMMARY] ✅ Invoice downloaded successfully');
       },
       error: (err) => {
-        console.error('Invoice download failed', err);
+        console.error('[ADMIN-SUMMARY] ❌ Invoice download failed:', err);
+        console.error('[ADMIN-SUMMARY] Error details:', {
+          status: err.status,
+          statusText: err.statusText,
+          message: err.message
+        });
         alert('Invoice not available');
       }
     });
