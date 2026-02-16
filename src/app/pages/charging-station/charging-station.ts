@@ -29,7 +29,8 @@ export class ChargingStationComponent implements OnInit {
   loading = false;
   error = '';
 
-  private apiUrl = 'https://localhost:7227/api/ChargingStation';
+ // private apiUrl = 'https://localhost:7227/api/ChargingStation';
+  private apiUrl = 'http://cms.kwikevcharging.in/api/ChargingStation';
 
   constructor(
     private http: HttpClient,

@@ -1,49 +1,3 @@
-// import { Component } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
-// import { HttpClient, HttpClientModule } from '@angular/common/http';
-// import { Router } from '@angular/router';
-
-// @Component({
-//   selector: 'app-add-station',
-//   standalone: true,
-//   imports: [CommonModule, FormsModule, HttpClientModule],
-//   templateUrl: './add-station.html',
-//   styleUrl: './add-station.scss',
-// })
-// export class AddStationComponent {
-
-//   station = {
-//     name: '',
-//     latitude: 0,
-//     longitude: 0,
-//     address: '',
-//     type: ''
-//   };
-
-//   private apiUrl = 'https://localhost:7227/api/ChargingStation';
-
-//   constructor(
-//     private http: HttpClient,
-//     private router: Router
-//   ) {}
-
-//   submit(): void {
-//     this.http.post(this.apiUrl, this.station).subscribe({
-//       next: () => this.router.navigate(['/dashboard/charging-station']),
-//       error: () => alert('Failed to add station')
-//     });
-//   }
-
-//   cancel(): void {
-//     this.router.navigate(['/dashboard/charging-station']);
-//   }
-// }
-
-
-
-
-
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -72,8 +26,8 @@ export class AddStationComponent {
     address: '',
     type: ''
   };
-
-  private apiUrl = 'https://localhost:7227/api/ChargingStation';
+  //private apiUrl = 'https://localhost:7227/api/ChargingStation';
+  private apiUrl = 'http://cms.kwikevcharging.in/api/ChargingStation';
 
   constructor(
     private http: HttpClient,
